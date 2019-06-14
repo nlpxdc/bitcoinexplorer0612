@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.cjf.bitcoinexplorer0612.dao.TransactionMapper">
+  <resultMap id="BaseResultMap" type="io.cjf.bitcoinexplorer0612.po.Transaction">
+    <id column="txhash" jdbcType="CHAR" property="txhash" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="amount" jdbcType="DOUBLE" property="amount" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="weight" jdbcType="REAL" property="weight" />
+    <result column="blockhash" jdbcType="CHAR" property="blockhash" />
+    <result column="confirmations" jdbcType="INTEGER" property="confirmations" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    txhash, time, amount, size, weight, blockhash, confirmations
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from transaction
+    where txhash = #{txhash,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from transaction
+    where txhash = #{txhash,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="io.cjf.bitcoinexplorer0612.po.Transaction">
+    insert into transaction (txhash, time, amount, 
+      size, weight, blockhash, 
+      confirmations)
+    values (#{txhash,jdbcType=CHAR}, #{time,jdbcType=TIMESTAMP}, #{amount,jdbcType=DOUBLE}, 
+      #{size,jdbcType=INTEGER}, #{weight,jdbcType=REAL}, #{blockhash,jdbcType=CHAR}, 
+      #{confirmations,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="io.cjf.bitcoinexplorer0612.po.Transaction">
+    insert into transaction
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="txhash != null">
+        txhash,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="blockhash != null">
+        blockhash,
+      </if>
+      <if test="confirmations != null">
+        confirmations,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="txhash != null">
+        #{txhash,jdbcType=CHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=REAL},
+      </if>
+      <if test="blockhash != null">
+        #{blockhash,jdbcType=CHAR},
+      </if>
+      <if test="confirmations != null">
+        #{confirmations,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.cjf.bitcoinexplorer0612.po.Transaction">
+    update transaction
+    <set>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=DOUBLE},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=REAL},
+      </if>
+      <if test="blockhash != null">
+        blockhash = #{blockhash,jdbcType=CHAR},
+      </if>
+      <if test="confirmations != null">
+        confirmations = #{confirmations,jdbcType=INTEGER},
+      </if>
+    </set>
+    where txhash = #{txhash,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.cjf.bitcoinexplorer0612.po.Transaction">
+    update transaction
+    set time = #{time,jdbcType=TIMESTAMP},
+      amount = #{amount,jdbcType=DOUBLE},
+      size = #{size,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=REAL},
+      blockhash = #{blockhash,jdbcType=CHAR},
+      confirmations = #{confirmations,jdbcType=INTEGER}
+    where txhash = #{txhash,jdbcType=CHAR}
+  </update>
+</mapper>

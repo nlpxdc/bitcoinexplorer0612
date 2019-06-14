@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.cjf.bitcoinexplorer0612.dao.BlockMapper">
+  <resultMap id="BaseResultMap" type="io.cjf.bitcoinexplorer0612.po.Block">
+    <id column="blockhash" jdbcType="CHAR" property="blockhash" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="txSize" jdbcType="SMALLINT" property="txsize" />
+    <result column="size" jdbcType="INTEGER" property="size" />
+    <result column="difficulty" jdbcType="DOUBLE" property="difficulty" />
+    <result column="weight" jdbcType="REAL" property="weight" />
+    <result column="next_block" jdbcType="CHAR" property="nextBlock" />
+    <result column="prev_block" jdbcType="CHAR" property="prevBlock" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    blockhash, height, time, txSize, size, difficulty, weight, next_block, prev_block
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from block
+    where blockhash = #{blockhash,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from block
+    where blockhash = #{blockhash,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="io.cjf.bitcoinexplorer0612.po.Block">
+    insert into block (blockhash, height, time, 
+      txSize, size, difficulty, 
+      weight, next_block, prev_block
+      )
+    values (#{blockhash,jdbcType=CHAR}, #{height,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, 
+      #{txsize,jdbcType=SMALLINT}, #{size,jdbcType=INTEGER}, #{difficulty,jdbcType=DOUBLE}, 
+      #{weight,jdbcType=REAL}, #{nextBlock,jdbcType=CHAR}, #{prevBlock,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="io.cjf.bitcoinexplorer0612.po.Block">
+    insert into block
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blockhash != null">
+        blockhash,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="txsize != null">
+        txSize,
+      </if>
+      <if test="size != null">
+        size,
+      </if>
+      <if test="difficulty != null">
+        difficulty,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="nextBlock != null">
+        next_block,
+      </if>
+      <if test="prevBlock != null">
+        prev_block,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blockhash != null">
+        #{blockhash,jdbcType=CHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="txsize != null">
+        #{txsize,jdbcType=SMALLINT},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=INTEGER},
+      </if>
+      <if test="difficulty != null">
+        #{difficulty,jdbcType=DOUBLE},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=REAL},
+      </if>
+      <if test="nextBlock != null">
+        #{nextBlock,jdbcType=CHAR},
+      </if>
+      <if test="prevBlock != null">
+        #{prevBlock,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.cjf.bitcoinexplorer0612.po.Block">
+    update block
+    <set>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="txsize != null">
+        txSize = #{txsize,jdbcType=SMALLINT},
+      </if>
+      <if test="size != null">
+        size = #{size,jdbcType=INTEGER},
+      </if>
+      <if test="difficulty != null">
+        difficulty = #{difficulty,jdbcType=DOUBLE},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=REAL},
+      </if>
+      <if test="nextBlock != null">
+        next_block = #{nextBlock,jdbcType=CHAR},
+      </if>
+      <if test="prevBlock != null">
+        prev_block = #{prevBlock,jdbcType=CHAR},
+      </if>
+    </set>
+    where blockhash = #{blockhash,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.cjf.bitcoinexplorer0612.po.Block">
+    update block
+    set height = #{height,jdbcType=INTEGER},
+      time = #{time,jdbcType=TIMESTAMP},
+      txSize = #{txsize,jdbcType=SMALLINT},
+      size = #{size,jdbcType=INTEGER},
+      difficulty = #{difficulty,jdbcType=DOUBLE},
+      weight = #{weight,jdbcType=REAL},
+      next_block = #{nextBlock,jdbcType=CHAR},
+      prev_block = #{prevBlock,jdbcType=CHAR}
+    where blockhash = #{blockhash,jdbcType=CHAR}
+  </update>
+</mapper>
