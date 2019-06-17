@@ -29,7 +29,10 @@ public class TempController {
 //        JSONObject blockChainInfo = bitcoinRestApi.getBlockChainInfo();
 //        JSONObject blockNoTxDetails = bitcoinRestApi.getBlockNoTxDetails("00000000000ed3139372c0b8449f0fb1778b128f247546a551316edf5e531fb7");
 
-        JSONObject blockchainInfo = bitcoinJsonRpcApi.getBlockchainInfo();
+//        JSONObject blockchainInfo = bitcoinJsonRpcApi.getBlockchainInfo();
+        JSONObject block = bitcoinJsonRpcApi.getBlockByHash("000000000000025f54e531a47239f394e6a7f07af3b9761f279cb86c5884d763");
+        JSONObject transaction = bitcoinJsonRpcApi.getTransactionById("1d7d5226bb2d39e328262e9816694458d2ae081af6e380790bdc00b968ce0daf");
+
         return null;
     }
 }
