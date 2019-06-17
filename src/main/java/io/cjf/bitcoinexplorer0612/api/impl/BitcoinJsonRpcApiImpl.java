@@ -3,6 +3,7 @@ package io.cjf.bitcoinexplorer0612.api.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.googlecode.jsonrpc4j.JsonRpcHttpClient;
 import io.cjf.bitcoinexplorer0612.api.BitcoinJsonRpcApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
@@ -15,13 +16,15 @@ public class BitcoinJsonRpcApiImpl implements BitcoinJsonRpcApi {
 
     private JsonRpcHttpClient jsonRpcHttpClient;
 
-    public BitcoinJsonRpcApiImpl() throws MalformedURLException {
+    public BitcoinJsonRpcApiImpl(@Value("${bitcoin.jsonrpc.username}") String username,
+                                 @Value("${bitcoin.jsonrpc.password}") String password,
+                                 @Value("${bitcoin.jsonrpc.url}") String url) throws MalformedURLException {
         HashMap<String, String> headers = new HashMap<>();
-        String authStrOrig = String.format("%s:%s","cjf","123456");
+        String authStrOrig = String.format("%s:%s",username,password);
         String authStr = Base64.getEncoder().encodeToString(authStrOrig.getBytes());
         String authStrResult = String.format("Basic %s",authStr);
         headers.put("Authorization",authStrResult);
-        jsonRpcHttpClient = new JsonRpcHttpClient(new URL("http://localhost:18332"),headers);
+        jsonRpcHttpClient = new JsonRpcHttpClient(new URL(url),headers);
     }
 
     @Override
