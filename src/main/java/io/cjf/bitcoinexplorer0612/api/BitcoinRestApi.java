@@ -1,9 +1,12 @@
 package io.cjf.bitcoinexplorer0612.api;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 @FeignClient(name = "BitcoinRestApi", url = "http://localhost:18332")
 public interface BitcoinRestApi {
@@ -19,4 +22,7 @@ public interface BitcoinRestApi {
 
     @GetMapping("/rest/getutxos/checkmempool/{txid}-{n}.json")
     JSONObject getUTXOCheckMempool(@PathVariable String txid, @PathVariable Integer n);
+
+    @GetMapping("/rest/headers/{count}/{blockhash}.json")
+    List<JSONObject> getBlockHeaders(@PathVariable String blockhash, @PathVariable Integer count);
 }
