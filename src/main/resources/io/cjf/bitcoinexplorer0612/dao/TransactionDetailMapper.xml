@@ -21,12 +21,7 @@
     delete from transaction_detail
     where tx_detail_id = #{txDetailId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="io.cjf.bitcoinexplorer0612.po.TransactionDetail">
-    insert into transaction_detail (tx_detail_id, address, amount, 
-      type, txhash)
-    values (#{txDetailId,jdbcType=BIGINT}, #{address,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE}, 
-      #{type,jdbcType=TINYINT}, #{txhash,jdbcType=CHAR})
-  </insert>
+
   <insert id="insertSelective" parameterType="io.cjf.bitcoinexplorer0612.po.TransactionDetail">
     insert into transaction_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -90,4 +85,12 @@
       txhash = #{txhash,jdbcType=CHAR}
     where tx_detail_id = #{txDetailId,jdbcType=BIGINT}
   </update>
+
+  <!--custom-->
+  <insert id="insert" parameterType="io.cjf.bitcoinexplorer0612.po.TransactionDetail" useGeneratedKeys="true" keyProperty="txDetailId">
+    insert into transaction_detail (address, amount,
+                                    type, txhash)
+    values (#{address,jdbcType=VARCHAR}, #{amount,jdbcType=DOUBLE},
+            #{type,jdbcType=TINYINT}, #{txhash,jdbcType=CHAR})
+  </insert>
 </mapper>
