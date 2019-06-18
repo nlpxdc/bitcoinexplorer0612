@@ -58,7 +58,6 @@ public class BitcoinServiceImpl implements BitcoinService {
             Integer confirmations = blockJson.getInteger("confirmations");
             blockMapper.insert(block);
 
-            //todo sync txes
             JSONArray txesArray = blockJson.getJSONArray("tx");
 
             for (Object txObj : txesArray) {
@@ -78,11 +77,35 @@ public class BitcoinServiceImpl implements BitcoinService {
         tx.setTxhash(txJson.getString("txid"));
         tx.setBlockhash(blockhash);
         tx.setTime(time);
-        //todo set tx amount
         tx.setSize(txJson.getInteger("size"));
         tx.setWeight(txJson.getFloat("weight"));
         tx.setConfirmations(confirmations);
         transactionMapper.insert(tx);
+
+        //todo set tx detail
+        syncTxDetail(txJson);
+
+        //todo set tx amount
+    }
+
+    @Override
+    public void syncTxDetail(JSONObject txJson) {
+        JSONArray vouts = txJson.getJSONArray("vout");
+        syncTxDetailVout(vouts);
+        JSONArray vins = txJson.getJSONArray("vin");
+        syncTxDetailVin(vins);
+    }
+
+    @Override
+    public void syncTxDetailVout(JSONArray vouts) {
+        for (Object voutObj : vouts) {
+            JSONObject jsonObject = new JSONObject((LinkedHashMap) voutObj);
+        }
+    }
+
+    @Override
+    public void syncTxDetailVin(JSONArray vins) {
+
     }
 
 }
