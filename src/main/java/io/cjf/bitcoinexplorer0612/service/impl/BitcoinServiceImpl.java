@@ -44,37 +44,44 @@ public class BitcoinServiceImpl implements BitcoinService {
 
     @Override
     @Async
-    @Transactional
-    public void syncBlock(String blockhash) throws Throwable {
-        logger.info("begin to sync block from {}", blockhash);
+    public void syncBlockchainFromHash(String blockhash) throws Throwable {
+        logger.info("begin to sync blockchain from {}", blockhash);
         String tempBlockhash = blockhash;
         while (tempBlockhash != null && !tempBlockhash.isEmpty()){
-            JSONObject blockJson = bitcoinRestApi.getBlock(tempBlockhash);
-            Block block = new Block();
-            block.setBlockhash(blockJson.getString("hash"));
-            block.setHeight(blockJson.getInteger("height"));
-            Long timestamp = blockJson.getLong("time");
-            Date time = new Date(timestamp * 1000);
-            block.setTime(time);
-            block.setTxsize(blockJson.getShort("nTx"));
-            block.setSize(blockJson.getInteger("size"));
-            block.setWeight(blockJson.getFloat("weight"));
-            block.setDifficulty(blockJson.getDouble("difficulty"));
-            block.setPrevBlock(blockJson.getString("previousblockhash"));
-            block.setNextBlock(blockJson.getString("nextblockhash"));
-            Integer confirmations = blockJson.getInteger("confirmations");
-            blockMapper.insert(block);
 
-            JSONArray txesArray = blockJson.getJSONArray("tx");
-
-            for (Object txObj : txesArray) {
-                JSONObject jsonObject = new JSONObject((LinkedHashMap) txObj);
-                syncTx(jsonObject, tempBlockhash, time, confirmations);
-            }
-
-            tempBlockhash = block.getNextBlock();
+            String nextBlock = syncBlock(tempBlockhash);
+            tempBlockhash = nextBlock;
         }
-        logger.info("end sync block");
+        logger.info("end sync blockchain");
+    }
+
+    @Override
+    @Transactional
+    public String syncBlock(String blockhash) throws Throwable {
+        JSONObject blockJson = bitcoinRestApi.getBlock(blockhash);
+        Block block = new Block();
+        block.setBlockhash(blockJson.getString("hash"));
+        block.setHeight(blockJson.getInteger("height"));
+        Long timestamp = blockJson.getLong("time");
+        Date time = new Date(timestamp * 1000);
+        block.setTime(time);
+        block.setTxsize(blockJson.getShort("nTx"));
+        block.setSize(blockJson.getInteger("size"));
+        block.setWeight(blockJson.getFloat("weight"));
+        block.setDifficulty(blockJson.getDouble("difficulty"));
+        block.setPrevBlock(blockJson.getString("previousblockhash"));
+        block.setNextBlock(blockJson.getString("nextblockhash"));
+        Integer confirmations = blockJson.getInteger("confirmations");
+        blockMapper.insert(block);
+
+        JSONArray txesArray = blockJson.getJSONArray("tx");
+
+        for (Object txObj : txesArray) {
+            JSONObject jsonObject = new JSONObject((LinkedHashMap) txObj);
+            syncTx(jsonObject, blockhash, time, confirmations);
+        }
+
+        return block.getNextBlock();
     }
 
     @Override

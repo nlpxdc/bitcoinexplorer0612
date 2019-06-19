@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface BitcoinService {
 
-    void syncBlock(String blockhash) throws Throwable;
+    void syncBlockchainFromHash(String blockhash) throws Throwable;
+
+    String syncBlock(String blockhash) throws Throwable;
 
     void syncTx(JSONObject txJson, String blockhash, Date time, Integer confirmations) throws Throwable;
 
