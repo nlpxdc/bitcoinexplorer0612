@@ -49,7 +49,7 @@ public class TempController {
 //        JSONObject utxo = bitcoinRestApi.getUTXO("1d7d5226bb2d39e328262e9816694458d2ae081af6e380790bdc00b968ce0daf", 0);
 //        JSONObject utxoCheckMempool = bitcoinRestApi.getUTXOCheckMempool("0b9a0ea6c034834e79db101967985e1b0d6358cad111444ff52075106acba8d6", 0);
 
-        String tempBlockhash = "000000000005205280df3a7398315b87705f939f4fcefdb9a75f4127b68785f4";
+        String tempBlockhash = "0000000000007269a38df4cf2507eb886bc972e611b8130ac193b72a55ea66a7";
         bitcoinService.syncBlock(tempBlockhash);
 
         return null;
